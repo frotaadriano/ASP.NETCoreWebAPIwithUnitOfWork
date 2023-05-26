@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CatalogoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogoDB")));
 
-// Register of seervices
+// Register of services 
 builder.Services.AddScoped<IAvaliacaoService, AvaliacaoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();

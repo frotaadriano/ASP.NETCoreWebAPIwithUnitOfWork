@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ASP.NETCoreWebAPIwithUnitOfWork.Data;
 using ASP.NETCoreWebAPIwithUnitOfWork.Domain.Models;
+using ASP.NETCoreWebAPIwithUnitOfWork.Domain.Interfaces.Services;
 
 namespace ASP.NETCoreWebAPIwithUnitOfWork.ASP.NETCoreWebAPIwithUnitOfWork.Controllers
 {
@@ -15,39 +16,36 @@ namespace ASP.NETCoreWebAPIwithUnitOfWork.ASP.NETCoreWebAPIwithUnitOfWork.Contro
     public class AvaliacaoController : ControllerBase
     {
         private readonly CatalogoContext _context;
+        private readonly IAvaliacaoService _avaliacaoService;
 
-        public AvaliacaoController(CatalogoContext context)
+        public AvaliacaoController(CatalogoContext context, IAvaliacaoService avaliacaoService)
         {
             _context = context;
+            _avaliacaoService = avaliacaoService;
         }
 
         // GET: api/Avaliacao
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Avaliacao>>> GetAvaliacaos()
         {
-          if (_context.Avaliacaos == null)
-          {
-              return NotFound();
-          }
-            return await _context.Avaliacaos.ToListAsync();
+            if (_context.Avaliacaos == null)
+            {
+                return NotFound();
+            }  
+            var avaliacoes = await _avaliacaoService.GetAvaliacaos();
+            return Ok(avaliacoes); 
         }
 
         // GET: api/Avaliacao/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Avaliacao>> GetAvaliacao(int id)
+        public async Task<ActionResult<Avaliacao>> GetAvaliacaoById(int id)
         {
-          if (_context.Avaliacaos == null)
-          {
-              return NotFound();
-          }
-            var avaliacao = await _context.Avaliacaos.FindAsync(id);
-
+            var avaliacao = await _avaliacaoService.GetAvaliacaoById(id);
             if (avaliacao == null)
             {
                 return NotFound();
             }
-
-            return avaliacao;
+            return Ok(avaliacao);
         }
 
         // PUT: api/Avaliacao/5
@@ -59,25 +57,7 @@ namespace ASP.NETCoreWebAPIwithUnitOfWork.ASP.NETCoreWebAPIwithUnitOfWork.Contro
             {
                 return BadRequest();
             }
-
-            _context.Entry(avaliacao).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AvaliacaoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _avaliacaoService.UpdateAvaliacao(avaliacao);
             return NoContent();
         }
 
@@ -86,33 +66,15 @@ namespace ASP.NETCoreWebAPIwithUnitOfWork.ASP.NETCoreWebAPIwithUnitOfWork.Contro
         [HttpPost]
         public async Task<ActionResult<Avaliacao>> PostAvaliacao(Avaliacao avaliacao)
         {
-          if (_context.Avaliacaos == null)
-          {
-              return Problem("Entity set 'CatalogoContext.Avaliacaos'  is null.");
-          }
-            _context.Avaliacaos.Add(avaliacao);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAvaliacao", new { id = avaliacao.AvaliacaoId }, avaliacao);
+            await _avaliacaoService.AddAvaliacao(avaliacao);
+            return CreatedAtAction(nameof(GetAvaliacaoById), new { id = avaliacao.AvaliacaoId }, avaliacao);
         }
 
         // DELETE: api/Avaliacao/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAvaliacao(int id)
         {
-            if (_context.Avaliacaos == null)
-            {
-                return NotFound();
-            }
-            var avaliacao = await _context.Avaliacaos.FindAsync(id);
-            if (avaliacao == null)
-            {
-                return NotFound();
-            }
-
-            _context.Avaliacaos.Remove(avaliacao);
-            await _context.SaveChangesAsync();
-
+            await _avaliacaoService.DeleteAvaliacao(id);
             return NoContent();
         }
 

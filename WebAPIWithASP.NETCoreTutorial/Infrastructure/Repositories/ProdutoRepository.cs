@@ -2,7 +2,7 @@
 
 namespace ASP.NETCoreWebAPIwithUnitOfWork.Infrastructure.Repositories
 {
-    public interface ProdutoRepository: IProdutoRepository
+    public class ProdutoRepository: IProdutoRepository
     {
     }
 }

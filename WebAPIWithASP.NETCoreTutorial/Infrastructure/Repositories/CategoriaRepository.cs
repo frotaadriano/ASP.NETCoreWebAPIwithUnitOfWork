@@ -2,7 +2,7 @@
 
 namespace ASP.NETCoreWebAPIwithUnitOfWork.Infrastructure.Repositories
 {
-    public interface CategoriaRepository: ICategoriaRepository
+    public class CategoriaRepository: ICategoriaRepository
     {
     }
 }
