@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using ASP.NETCoreWebAPIwithUnitOfWork.Models;
+using ASP.NETCoreWebAPIwithUnitOfWork.Domain.Models;
 
 namespace ASP.NETCoreWebAPIwithUnitOfWork.Data;
 

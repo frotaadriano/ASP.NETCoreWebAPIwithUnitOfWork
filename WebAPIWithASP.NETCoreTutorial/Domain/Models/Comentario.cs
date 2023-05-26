@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ASP.NETCoreWebAPIwithUnitOfWork.Models;
+namespace ASP.NETCoreWebAPIwithUnitOfWork.Domain.Models;
 
 public partial class Comentario
 {

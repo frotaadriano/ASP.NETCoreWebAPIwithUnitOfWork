@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ASP.NETCoreWebAPIwithUnitOfWork.Data;
-using ASP.NETCoreWebAPIwithUnitOfWork.Models;
+using ASP.NETCoreWebAPIwithUnitOfWork.Domain.Models;
 
 namespace ASP.NETCoreWebAPIwithUnitOfWork.Controllers
 {
